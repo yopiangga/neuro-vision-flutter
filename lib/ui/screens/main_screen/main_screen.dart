@@ -13,6 +13,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> screens = [
     DashboardScreen(),
     HistoryScreen(),
+    NotificationScreen(),
+    ProfileScreen(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -24,11 +26,6 @@ class _MainScreenState extends State<MainScreen> {
       body: PageStorage(
         child: currentScreen,
         bucket: bucket,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: CustomColor.main,
-        child: Icon(Icons.add),
-        onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -48,30 +45,13 @@ class _MainScreenState extends State<MainScreen> {
                       currentIndex = 0;
                     });
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.dashboard,
-                        color: currentIndex == 0
-                            ? CustomColor.main
-                            : CustomColor.grey,
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        "Dashboard",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentIndex == 0
-                              ? CustomColor.main
-                              : CustomColor.grey,
-                        ),
-                      )
-                    ],
+                  child: Icon(
+                    Icons.home_filled,
+                    color:
+                        currentIndex == 0 ? CustomColor.main : CustomColor.grey,
                   ),
                 ),
               ),
-              SizedBox(width: 50),
               Expanded(
                 child: MaterialButton(
                   minWidth: 40,
@@ -81,29 +61,45 @@ class _MainScreenState extends State<MainScreen> {
                       currentIndex = 1;
                     });
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.history,
-                        color: currentIndex == 1
-                            ? CustomColor.main
-                            : CustomColor.grey,
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        "History",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentIndex == 1
-                              ? CustomColor.main
-                              : CustomColor.grey,
-                        ),
-                      )
-                    ],
+                  child: Icon(
+                    Icons.history,
+                    color:
+                        currentIndex == 1 ? CustomColor.main : CustomColor.grey,
                   ),
                 ),
-              )
+              ),
+              Expanded(
+                child: MaterialButton(
+                  minWidth: 40,
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = NotificationScreen();
+                      currentIndex = 2;
+                    });
+                  },
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    color:
+                        currentIndex == 2 ? CustomColor.main : CustomColor.grey,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: MaterialButton(
+                  minWidth: 40,
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = ProfileScreen();
+                      currentIndex = 3;
+                    });
+                  },
+                  child: Icon(
+                    Icons.person_outline,
+                    color:
+                        currentIndex == 3 ? CustomColor.main : CustomColor.grey,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
