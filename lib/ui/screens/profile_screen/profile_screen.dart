@@ -1,7 +1,7 @@
 part of '../screens.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileUserScreen extends StatelessWidget {
+  const ProfileUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

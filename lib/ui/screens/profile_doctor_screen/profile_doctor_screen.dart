@@ -1,0 +1,15 @@
+part of '../screens.dart';
+
+class ProfileDoctorScreen extends StatefulWidget {
+  const ProfileDoctorScreen({super.key});
+
+  @override
+  State<ProfileDoctorScreen> createState() => _ProfileDoctorScreenState();
+}
+
+class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}

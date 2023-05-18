@@ -1,7 +1,7 @@
 part of '../screens.dart';
 
-class NotificationScreen extends StatelessWidget {
-  const NotificationScreen({super.key});
+class NotificationUserScreen extends StatelessWidget {
+  const NotificationUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

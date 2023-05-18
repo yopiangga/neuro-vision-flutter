@@ -5,8 +5,10 @@ import 'package:neuro_vision_mobile/shared/shared.dart';
 import 'package:get/get.dart';
 
 import '../../models/models.dart';
-
+part '../widgets/widgets.dart';
 part 'main_screen/main_screen.dart';
+
+// USER SCREEN
 part 'dashboard_screen/dashboard_screen.dart';
 part 'dashboard_screen/detail_screen.dart';
 part 'dashboard_screen/promise_screen.dart';
@@ -17,3 +19,9 @@ part 'notification_screen/notification_screen.dart';
 part 'profile_screen/profile_screen.dart';
 part 'profile_screen/change_password_screen.dart';
 part 'sign_in_screen/sign_in_screen.dart';
+
+// DOCTOR SCREEN
+part 'dashboard_doctor_screen/dashboard_doctor_screen.dart';
+part 'history_doctor_screen/history_doctor_screen.dart';
+part 'notification_doctor_screen/notification_doctor_screen.dart';
+part 'profile_doctor_screen/profile_doctor_screen.dart';

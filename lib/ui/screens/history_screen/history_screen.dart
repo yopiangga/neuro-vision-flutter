@@ -16,14 +16,14 @@ class ScanPromise {
   });
 }
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class HistoryUserScreen extends StatefulWidget {
+  const HistoryUserScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
+  State<HistoryUserScreen> createState() => _HistoryUserScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _HistoryUserScreenState extends State<HistoryUserScreen> {
   List<ScanPromise> promise = [
     ScanPromise(
       name: "Alfian Prisma Yopiangga",
