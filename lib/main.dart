@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neuro_vision_mobile/shared/shared.dart';
+import 'package:neuro_vision_mobile/ui/screens/map_screen/map_hospital_screen.dart';
 import 'package:neuro_vision_mobile/ui/screens/screens.dart';
 
 void main() {
@@ -18,8 +19,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       debugShowCheckedModeBanner: false,
-      // home: SignInScreen(),
-      initialRoute: '/main',
+      home: MapHospitalScreen(),
+      // initialRoute: '/main',
       routes: {
         '/sign_in': (context) => const SignInScreen(),
         '/main': (context) => const MainScreen(),

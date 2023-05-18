@@ -7,7 +7,7 @@ environment:
 
 dependencies: 
   another_flushbar: ^1.10.28
-  google_fonts: ^2.3.1
+  google_fonts: ^4.0.4
   http: ^0.13.4
   provider: ^6.0.2
   cupertino_icons: ^1.0.2

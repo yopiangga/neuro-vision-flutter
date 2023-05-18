@@ -44,7 +44,7 @@ List<Hospitals> hospitals = [
   Hospitals(
     name: "Siloam hospitals Bogor",
     address:
-        "Raya Pajajaran Street, Number 27, Tegallega, Center Bogor, Bogor City, West Java 14140, Indonesia",
+    "Raya Pajajaran Street, Number 27, Tegallega, Center Bogor, Bogor City, West Java 14140, Indonesia",
     biaya: "Rp 1.251.000,00",
     image: "null",
     info: "24 hours | 0251-8303911 (Emergency Call)",

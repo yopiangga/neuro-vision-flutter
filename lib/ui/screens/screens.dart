@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../shared/shared.dart';
-import '../../models/models.dart';
+import '../../models/hospital_model.dart';
 part '../widgets/widgets.dart';
 part 'main_screen/main_screen.dart';
 
