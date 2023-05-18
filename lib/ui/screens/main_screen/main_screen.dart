@@ -11,14 +11,22 @@ class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
 
   final List<Widget> screens = [
-    DashboardScreen(),
-    HistoryScreen(),
-    NotificationScreen(),
-    ProfileScreen(),
+    // USER SCREEN
+    DashboardUserScreen(),
+    HistoryUserScreen(),
+    NotificationUserScreen(),
+    ProfileUserScreen(),
+
+    // DOCTOR SCREEN
+    DashboardDoctorScreen(),
+    HistoryDoctorScreen(),
+    NotificationDoctorScreen(),
+    ProfileDoctorScreen(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = DashboardScreen();
+  Widget currentScreen = DashboardUserScreen();
+  String user = "dokter"; //TODO: get user from memory
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +49,9 @@ class _MainScreenState extends State<MainScreen> {
                   minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentScreen = DashboardScreen();
+                      currentScreen = user == 'user'
+                          ? DashboardUserScreen()
+                          : DashboardDoctorScreen();
                       currentIndex = 0;
                     });
                   },
@@ -57,7 +67,9 @@ class _MainScreenState extends State<MainScreen> {
                   minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentScreen = HistoryScreen();
+                      currentScreen = user == 'user'
+                          ? HistoryUserScreen()
+                          : HistoryDoctorScreen();
                       currentIndex = 1;
                     });
                   },
@@ -73,7 +85,9 @@ class _MainScreenState extends State<MainScreen> {
                   minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentScreen = NotificationScreen();
+                      currentScreen = user == 'user'
+                          ? NotificationUserScreen()
+                          : NotificationDoctorScreen();
                       currentIndex = 2;
                     });
                   },
@@ -89,7 +103,9 @@ class _MainScreenState extends State<MainScreen> {
                   minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentScreen = ProfileScreen();
+                      currentScreen = user == 'user'
+                          ? ProfileUserScreen()
+                          : ProfileDoctorScreen();
                       currentIndex = 3;
                     });
                   },
