@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:neuro_vision_mobile/shared/shared.dart';
-import 'package:get/get.dart';
 
+import '../../shared/shared.dart';
 import '../../models/models.dart';
 
 part 'main_screen/main_screen.dart';
