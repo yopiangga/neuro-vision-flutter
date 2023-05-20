@@ -55,23 +55,7 @@ class SuccessScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: CustomColor.main,
-                    borderRadius: BorderRadius.circular(50 / 2),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Close",
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                child: LergeButton(content: "Close"),
               ),
             ],
           ),

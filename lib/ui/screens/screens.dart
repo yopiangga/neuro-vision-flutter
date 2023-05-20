@@ -23,5 +23,7 @@ part 'sign_in_screen/sign_in_screen.dart';
 // DOCTOR SCREEN
 part 'dashboard_doctor_screen/dashboard_doctor_screen.dart';
 part 'history_doctor_screen/history_doctor_screen.dart';
+part 'history_doctor_screen/hospital_patient_screen.dart';
+part 'history_doctor_screen/detail_patient_screen.dart';
 part 'notification_doctor_screen/notification_doctor_screen.dart';
 part 'profile_doctor_screen/profile_doctor_screen.dart';

@@ -1,19 +1,19 @@
 part of '../screens.dart';
 
-class HistoryUserScreen extends StatefulWidget {
-  const HistoryUserScreen({super.key});
+class HospitalPatient extends StatefulWidget {
+  const HospitalPatient({super.key});
 
   @override
-  State<HistoryUserScreen> createState() => _HistoryUserScreenState();
+  State<HospitalPatient> createState() => _HospitalPatientState();
 }
 
-class _HistoryUserScreenState extends State<HistoryUserScreen> {
+class _HospitalPatientState extends State<HospitalPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("My Promise", style: darkTextFont),
+        title: Text("User Name", style: darkTextFont),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -28,7 +28,7 @@ class _HistoryUserScreenState extends State<HistoryUserScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailHistoryPromise(
+                  builder: (context) => DetailPatient(
                     data: promise[index],
                   ),
                 ),
@@ -97,44 +97,6 @@ class _HistoryUserScreenState extends State<HistoryUserScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class EmptyHistory extends StatelessWidget {
-  const EmptyHistory({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          EmptySection(
-            title: "No saved promise",
-            content:
-                "Make an appointment with the doctor at the hospital, and I'll keep it here",
-          ),
-          SizedBox(height: 20),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              width: 170,
-              height: 50,
-              decoration: BoxDecoration(
-                color: CustomColor.main,
-                borderRadius: BorderRadius.circular(50 / 2),
-              ),
-              child: Center(
-                child: Text("Create New", style: whiteTextFont),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

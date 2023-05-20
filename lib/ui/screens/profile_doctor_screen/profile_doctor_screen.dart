@@ -10,6 +10,23 @@ class ProfileDoctorScreen extends StatefulWidget {
 class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Profile", style: darkTextFont),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 30),
+          ProfileImage(),
+          ProfileName(),
+          EmailProfile(),
+          LogoutButton(),
+        ],
+      ),
+    );
   }
 }

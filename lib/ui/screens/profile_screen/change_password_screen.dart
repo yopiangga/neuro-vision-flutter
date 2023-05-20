@@ -82,29 +82,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
           ),
           SizedBox(height: 60),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: Row(
-              children: [
-                Expanded(
-                    child: MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed("/main");
-                  },
-                  color: CustomColor.main,
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Text(
-                    'Submit',
-                    style: whiteTextFont.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ))
-              ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: InkWell(
+              onTap: () => Navigator.of(context).pushReplacementNamed("/main"),
+              child: LergeButton(content: "Submit"),
             ),
           ),
         ],

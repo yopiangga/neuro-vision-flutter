@@ -16,6 +16,22 @@ class Hospitals {
   });
 }
 
+class ScanPromise {
+  String name;
+  String date;
+  String time;
+  String status;
+  Hospitals hospitals;
+
+  ScanPromise({
+    required this.name,
+    required this.date,
+    required this.time,
+    required this.status,
+    required this.hospitals,
+  });
+}
+
 List<Hospitals> hospitals = [
   Hospitals(
     name: "Eka Hospital Bekasi",
@@ -49,5 +65,29 @@ List<Hospitals> hospitals = [
     image: "null",
     info: "24 hours | 0251-8303911 (Emergency Call)",
     rating: "4.5",
+  ),
+];
+
+List<ScanPromise> promise = [
+  ScanPromise(
+    name: "Alfian Prisma Yopiangga",
+    date: "April 27, 2023",
+    time: "06.00",
+    status: "Pending",
+    hospitals: hospitals[3],
+  ),
+  ScanPromise(
+    name: "M Roy Farchan",
+    date: "April 27, 2023",
+    time: "06.00",
+    status: "Pending",
+    hospitals: hospitals[1],
+  ),
+  ScanPromise(
+    name: "Arga Rafi I.M",
+    date: "April 27, 2023",
+    time: "06.00",
+    status: "Pending",
+    hospitals: hospitals[2],
   ),
 ];

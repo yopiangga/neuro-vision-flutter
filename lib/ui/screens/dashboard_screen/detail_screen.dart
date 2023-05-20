@@ -16,15 +16,17 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          BannerImage(paddingTop: paddingTop),
-          TittleHospital(data: data),
-          HospitalAddress(data: data),
-          Divider(),
-          MapButton(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            BannerImage(paddingTop: paddingTop),
+            TittleHospital(data: data),
+            HospitalAddress(data: data),
+            Divider(),
+            MapButton(),
+          ],
+        ),
       ),
     );
   }
@@ -46,7 +48,7 @@ class MapButton extends StatelessWidget {
             height: 180,
             color: Colors.grey[200],
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 20),
           InkWell(
             onTap: () {
               Navigator.push(
@@ -56,23 +58,7 @@ class MapButton extends StatelessWidget {
                 ),
               );
             },
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                color: CustomColor.main,
-                borderRadius: BorderRadius.circular(50 / 2),
-              ),
-              child: Center(
-                child: Text(
-                  "Create promise",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            child: LergeButton(content: "Create Promise"),
           )
         ],
       ),

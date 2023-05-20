@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
                     });
                   },
                   child: Icon(
-                    Icons.history,
+                    user == 'user' ? Icons.history : Icons.people_outline,
                     color:
                         currentIndex == 1 ? CustomColor.main : CustomColor.grey,
                   ),

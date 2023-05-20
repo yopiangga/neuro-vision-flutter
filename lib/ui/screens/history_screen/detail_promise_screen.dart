@@ -32,38 +32,14 @@ class DetailHistoryPromise extends StatelessWidget {
             Divider(),
             NotePromise(data: data),
             Spacer(),
-            ButtonBack(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
+                child: LergeButton(content: "Back"),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ButtonBack extends StatelessWidget {
-  const ButtonBack({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
-      },
-      child: Container(
-        margin: EdgeInsets.all(20),
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: CustomColor.main,
-          borderRadius: BorderRadius.circular(50 / 2),
-        ),
-        child: Center(
-          child: Text(
-            "Back",
-            style: whiteTextFont,
-          ),
         ),
       ),
     );
@@ -167,9 +143,11 @@ class DownloadOutput extends StatelessWidget {
 }
 
 class OutputStroke extends StatelessWidget {
-  const OutputStroke({
+  OutputStroke({
     super.key,
   });
+
+  bool isUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -201,19 +179,46 @@ class OutputStroke extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          Text(
-            "Stroke Ischemic",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            "Diagnosis by Doctor",
-            style: TextStyle(
-              fontSize: 15,
-              color: CustomColor.grey,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Stroke Ischemic",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "Diagnosis by Doctor",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: CustomColor.grey,
+                    ),
+                  ),
+                ],
+              ),
+              if (!isUser)
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50 / 2),
+                      border: Border.all(color: CustomColor.main, width: 1),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Edit",
+                        style: TextStyle(color: CustomColor.main),
+                      ),
+                    ),
+                  ),
+                )
+            ],
           ),
           SizedBox(height: 20),
         ],

@@ -328,23 +328,7 @@ class _PromiseScreenState extends State<PromiseScreen> {
                     ),
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: CustomColor.main,
-                    borderRadius: BorderRadius.circular(50 / 2),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Create promise",
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                child: LergeButton(content: "Submit"),
               ),
               SizedBox(height: 20),
             ],
