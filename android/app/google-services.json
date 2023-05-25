@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "188610088489",
+    "project_id": "naraya-hack",
+    "storage_bucket": "naraya-hack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188610088489:android:74658ce55c200c201e1638",
+        "android_client_info": {
+          "package_name": "com.example.neuro_vision_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188610088489-f5klg15vra11v7fl2v7ni4bq4bcvnk39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLHWvesOoTVkDkNEbT4TbzF-3aKTVmd4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188610088489-f5klg15vra11v7fl2v7ni4bq4bcvnk39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188610088489:android:22d2b94a52afe56e1e1638",
+        "android_client_info": {
+          "package_name": "com.naraya.vision"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188610088489-f5klg15vra11v7fl2v7ni4bq4bcvnk39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLHWvesOoTVkDkNEbT4TbzF-3aKTVmd4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188610088489-f5klg15vra11v7fl2v7ni4bq4bcvnk39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

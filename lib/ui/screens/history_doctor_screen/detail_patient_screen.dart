@@ -26,7 +26,7 @@ class DetailPatient extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            OutputStroke(),
+            // OutputStroke(),
             Divider(),
             DownloadOutput(),
             Divider(),

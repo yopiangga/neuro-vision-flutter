@@ -21,9 +21,9 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
       body: Column(
         children: [
           SizedBox(height: 30),
-          ProfileImage(),
-          ProfileName(),
-          EmailProfile(),
+          ProfileImage(name: "Dokter"),
+          ProfileName(name: "dokter", role: "Dokter"),
+          EmailProfile(email: "tes@gmail.com"),
           LogoutButton(),
         ],
       ),

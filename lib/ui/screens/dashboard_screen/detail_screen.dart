@@ -2,7 +2,7 @@ part of '../screens.dart';
 
 class DetailScreen extends StatefulWidget {
   DetailScreen({super.key, required this.data});
-  var data;
+  Hospital data;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState(data: data);
@@ -10,7 +10,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   _DetailScreenState({required this.data});
-  var data;
+  Hospital data;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            BannerImage(paddingTop: paddingTop),
+            BannerImage(paddingTop: paddingTop, data: data),
             TittleHospital(data: data),
             HospitalAddress(data: data),
             Divider(),
-            MapButton(),
+            MapButton(data: data),
           ],
         ),
       ),
@@ -33,12 +33,19 @@ class _DetailScreenState extends State<DetailScreen> {
 }
 
 class MapButton extends StatelessWidget {
-  const MapButton({
+  MapButton({
+    required this.data,
     super.key,
   });
 
+  Hospital data;
+  final Set<Marker> _markers = {};
+
   @override
   Widget build(BuildContext context) {
+    double lat = double.parse(data.geolocation['latitude']);
+    double long = double.parse(data.geolocation['longitude']);
+    _setMarkers(data, lat, long);
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20, top: 10),
       child: Column(
@@ -47,6 +54,13 @@ class MapButton extends StatelessWidget {
             width: double.infinity,
             height: 180,
             color: Colors.grey[200],
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(lat, long),
+                zoom: 15,
+              ),
+              markers: _markers,
+            ),
           ),
           SizedBox(height: 20),
           InkWell(
@@ -54,7 +68,7 @@ class MapButton extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PromiseScreen(),
+                  builder: (context) => PromiseScreen(data: data),
                 ),
               );
             },
@@ -64,15 +78,28 @@ class MapButton extends StatelessWidget {
       ),
     );
   }
+
+  void _setMarkers(Hospital data, double lat, double long) {
+    _markers.add(
+      Marker(
+        markerId: MarkerId(data.name),
+        position: LatLng(lat, long),
+        infoWindow: InfoWindow(
+          title: data.name,
+          snippet: data.address,
+        ),
+      ),
+    );
+  }
 }
 
 class HospitalAddress extends StatelessWidget {
-  const HospitalAddress({
+  HospitalAddress({
     super.key,
     required this.data,
   });
 
-  final data;
+  Hospital data;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +110,7 @@ class HospitalAddress extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            data.info,
+            "${data.service_hours} | ${data.telephone} (Emergency Call)",
             style: TextStyle(color: CustomColor.grey),
           ),
           SizedBox(height: 10),
@@ -104,7 +131,7 @@ class TittleHospital extends StatelessWidget {
     required this.data,
   });
 
-  var data;
+  Hospital data;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +144,13 @@ class TittleHospital extends StatelessWidget {
           Container(
             width: 130,
             height: 100,
-            color: Colors.grey[200],
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              image: DecorationImage(
+                image: NetworkImage(data.image[0]),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           SizedBox(width: 10),
           Expanded(
@@ -154,11 +187,13 @@ class TittleHospital extends StatelessWidget {
 }
 
 class BannerImage extends StatelessWidget {
-  const BannerImage({
+  BannerImage({
     super.key,
     required this.paddingTop,
+    required this.data,
   });
 
+  Hospital data;
   final double paddingTop;
 
   @override
@@ -167,7 +202,13 @@ class BannerImage extends StatelessWidget {
       padding: EdgeInsets.only(top: paddingTop + 20, left: 20, right: 20),
       height: 250,
       width: double.infinity,
-      color: Colors.grey,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        image: DecorationImage(
+          image: NetworkImage(data.image[1]),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

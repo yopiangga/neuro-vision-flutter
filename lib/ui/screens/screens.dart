@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:neuro_vision_mobile/shared/shared.dart';
-import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
-import '../../models/models.dart';
+import '../../shared/shared.dart';
+import '../../models/hospital_model.dart';
+import '../../models/promise_model.dart';
+import '../../models/patient_model.dart';
+import '../../models/notification_model.dart';
+import '../../services/auth_service.dart';
+import '../../services/hospital_service.dart';
+import '../../services/promise_service.dart';
+import '../../services/notification_service.dart';
+import '../../services/patient_service.dart';
 part '../widgets/widgets.dart';
 part 'main_screen/main_screen.dart';
 
@@ -19,6 +28,7 @@ part 'notification_screen/notification_screen.dart';
 part 'profile_screen/profile_screen.dart';
 part 'profile_screen/change_password_screen.dart';
 part 'sign_in_screen/sign_in_screen.dart';
+part 'register_screen/register_screen.dart';
 
 // DOCTOR SCREEN
 part 'dashboard_doctor_screen/dashboard_doctor_screen.dart';

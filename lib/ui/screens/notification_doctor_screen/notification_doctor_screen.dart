@@ -9,6 +9,8 @@ class NotificationDoctorScreen extends StatefulWidget {
 }
 
 class _NotificationDoctorScreenState extends State<NotificationDoctorScreen> {
+  NotificationService notificationServices = NotificationService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

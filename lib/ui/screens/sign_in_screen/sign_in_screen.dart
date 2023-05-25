@@ -8,6 +8,11 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final AuthService auth = AuthService();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +47,9 @@ class _SignInScreenState extends State<SignInScreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: TextField(
+              onChanged: (value) {
+                emailController.text = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -55,6 +63,10 @@ class _SignInScreenState extends State<SignInScreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             child: TextField(
+              obscureText: true,
+              onChanged: (value) {
+                passwordController.text = value;
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -85,27 +97,61 @@ class _SignInScreenState extends State<SignInScreen> {
           SizedBox(height: 60),
           Container(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: Row(
-              children: [
-                Expanded(
-                    child: MaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed("/main");
-                  },
-                  color: CustomColor.main,
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+            child: Expanded(
+              child: MaterialButton(
+                onPressed: () {
+                  auth
+                      .signIn(emailController.text, passwordController.text)
+                      .then((value) {
+                    if (value != null) {
+                      Navigator.pushReplacementNamed(context, '/main');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Email or Password is wrong'),
+                        ),
+                      );
+                    }
+                  }).catchError((e) {
+                    print(e);
+                  });
+                },
+                color: CustomColor.main,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Text(
+                  'Sign In',
+                  style: whiteTextFont.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-                  child: Text(
-                    'Sign In',
-                    style: whiteTextFont.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: Expanded(
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                color: CustomColor.dark,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Text(
+                  'Register',
+                  style: whiteTextFont.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                   ),
-                ))
-              ],
+                ),
+              ),
             ),
           ),
           SizedBox(height: 20),

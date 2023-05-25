@@ -1,7 +1,8 @@
 part of '../screens.dart';
 
 class ProfileUserScreen extends StatelessWidget {
-  const ProfileUserScreen({super.key});
+  ProfileUserScreen({required this.data});
+  Map<String, dynamic> data;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,9 @@ class ProfileUserScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 30),
-          ProfileImage(),
-          ProfileName(),
-          EmailProfile(),
+          ProfileImage(name: data['fullname']),
+          ProfileName(name: data['fullname'], role: data['role']),
+          EmailProfile(email: data['email']),
           LogoutButton(),
         ],
       ),
@@ -27,20 +28,17 @@ class ProfileUserScreen extends StatelessWidget {
 }
 
 class LogoutButton extends StatelessWidget {
-  const LogoutButton({
+  LogoutButton({
     super.key,
   });
+  AuthService auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SignInScreen(),
-          ),
-        );
+        auth.signOut();
+        Navigator.pushReplacementNamed(context, '/sign_in');
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),
@@ -62,9 +60,11 @@ class LogoutButton extends StatelessWidget {
 }
 
 class EmailProfile extends StatelessWidget {
-  const EmailProfile({
+  EmailProfile({
+    required this.email,
     super.key,
   });
+  String email;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class EmailProfile extends StatelessWidget {
             children: [
               Icon(Icons.email, color: CustomColor.grey),
               SizedBox(width: 10),
-              Text("yopiangga@it.student.pens.ac.id")
+              Text(email)
             ],
           ),
           SizedBox(height: 5),
@@ -119,9 +119,13 @@ class EmailProfile extends StatelessWidget {
 }
 
 class ProfileName extends StatelessWidget {
-  const ProfileName({
+  ProfileName({
+    required this.name,
+    required this.role,
     super.key,
   });
+  String name;
+  String role;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +135,7 @@ class ProfileName extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Alfian Prisma Yopiangga",
+            name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -139,7 +143,7 @@ class ProfileName extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Text(
-            "Patient",
+            role,
             style: TextStyle(
               fontSize: 17,
             ),
@@ -151,12 +155,21 @@ class ProfileName extends StatelessWidget {
 }
 
 class ProfileImage extends StatelessWidget {
-  const ProfileImage({
+  ProfileImage({
+    required this.name,
     super.key,
   });
+  String name;
 
   @override
   Widget build(BuildContext context) {
+    // ambil huruf pertama dari setiap kata
+    String text = "";
+    List<String> words = name.split(" ");
+    for (var word in words) {
+      text += word[0].toUpperCase();
+    }
+
     return Center(
       child: Container(
         width: 100,
@@ -167,7 +180,7 @@ class ProfileImage extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "AY",
+            text,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: CustomColor.main,

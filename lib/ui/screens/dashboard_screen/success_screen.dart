@@ -10,7 +10,7 @@ class SuccessScreen extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => DashboardUserScreen(),
+            builder: (context) => MainScreen(),
           ),
         );
         return Future.value(false);
@@ -51,7 +51,7 @@ class SuccessScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DashboardUserScreen(),
+                      builder: (context) => MainScreen(),
                     ),
                   );
                 },

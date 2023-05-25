@@ -1,29 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:neuro_vision_mobile/shared/shared.dart';
+import 'package:neuro_vision_mobile/ui/screens/map_screen/map_hospital_screen.dart';
 import 'package:neuro_vision_mobile/ui/screens/screens.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Neuro Vision',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      debugShowCheckedModeBanner: false,
-      // home: SignInScreen(),
-      initialRoute: '/main',
-      routes: {
-        '/sign_in': (context) => const SignInScreen(),
-        '/main': (context) => const MainScreen(),
-      },
-    );
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return MaterialApp(
+            title: 'Neuro Vision',
+            theme: ThemeData(
+              primarySwatch: Colors.indigo,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: SignInScreen(),
+            initialRoute: snapshot.hasData ? '/main' : '/sign_in',
+            routes: {
+              '/sign_in': (context) => const SignInScreen(),
+              '/register': (context) => const RegisterScreen(),
+              '/main': (context) => const MainScreen(),
+              '/promise_success': (context) => const SuccessScreen(),
+            },
+          );
+        });
   }
 }

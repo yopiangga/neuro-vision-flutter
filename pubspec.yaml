@@ -7,11 +7,16 @@ environment:
 
 dependencies: 
   another_flushbar: ^1.10.28
-  google_fonts: ^2.3.1
+  google_fonts: ^4.0.4
   http: ^0.13.4
   provider: ^6.0.2
   cupertino_icons: ^1.0.2
-  get: 4.6.5
+  google_maps_flutter: ^2.2.6
+  firebase_core: 2.13.0
+  firebase_auth: ^4.6.1
+  cloud_firestore: 4.7.1
+  uuid: 3.0.7
+  intl: 0.18.1
   flutter: 
     sdk: flutter
 

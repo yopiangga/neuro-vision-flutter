@@ -1,17 +1,18 @@
 part of '../screens.dart';
 
 class PromiseScreen extends StatefulWidget {
-  const PromiseScreen({super.key});
+  PromiseScreen({required this.data, super.key});
+  Hospital data;
 
   @override
-  State<PromiseScreen> createState() => _PromiseScreenState();
+  State<PromiseScreen> createState() => _PromiseScreenState(hospital: data);
 }
 
 class _PromiseScreenState extends State<PromiseScreen> {
-  List<String> doctors = [
-    "dr. Slamet Sukma Djaja, Sp.PD",
-  ];
-  String selectedDoctor = "dr. Slamet Sukma Djaja, Sp.PD";
+  _PromiseScreenState({required this.hospital});
+  Hospital hospital;
+
+  String selectedDoctor = "";
   String date = "";
   String time = "";
   String email = "";
@@ -24,9 +25,12 @@ class _PromiseScreenState extends State<PromiseScreen> {
   TextEditingController timeValueController = TextEditingController();
   TextEditingController dateBirthValueController = TextEditingController();
 
+  PromiseService promiseService = PromiseService();
+
   @override
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).padding.top;
+    List<dynamic> doctors = hospital.doctors;
 
     return Scaffold(
       body: Padding(
@@ -76,11 +80,11 @@ class _PromiseScreenState extends State<PromiseScreen> {
                 child: DropdownButton(
                   icon: SizedBox(),
                   underline: SizedBox(),
-                  value: selectedDoctor,
+                  value: selectedDoctor.isEmpty ? null : selectedDoctor,
                   items: doctors.map((doctor) {
                     return DropdownMenuItem(
-                      value: doctor,
-                      child: Text(doctor),
+                      value: doctor['fullname'],
+                      child: Text(doctor['fullname']),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -271,7 +275,7 @@ class _PromiseScreenState extends State<PromiseScreen> {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
+                              firstDate: DateTime(1900),
                               lastDate: DateTime(2100),
                             );
                             if (pickedDate != null) {
@@ -321,12 +325,27 @@ class _PromiseScreenState extends State<PromiseScreen> {
               //================================================================ BUTTON
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SuccessScreen(),
-                    ),
+                  Patient patient = Patient(
+                    email: email,
+                    fullname: name,
+                    pob: placeBirth,
+                    dob: dateBirthValueController.text,
+                    nik: nik,
                   );
+                  String time =
+                      "${dateValueController.text} ${timeValueController.text}:00";
+
+                  promiseService
+                      .createPromise(hospital, patient, time, selectedDoctor)
+                      .then((value) {
+                    if (value) {
+                      print("Promise Created");
+                      Navigator.pushReplacementNamed(
+                          context, '/promise_success');
+                    } else {
+                      print("Promise Failed");
+                    }
+                  });
                 },
                 child: LergeButton(content: "Submit"),
               ),
