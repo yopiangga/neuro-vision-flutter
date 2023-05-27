@@ -67,7 +67,7 @@ class AuthService {
       return snapshot.data() as Map<String, dynamic>;
     } catch (e) {
       print("ERROR: $e");
-      rethrow;
+      return {};
     }
   }
 

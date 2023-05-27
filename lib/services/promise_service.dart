@@ -5,6 +5,7 @@ import '../models/doctor_model.dart';
 import './notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class PromiseService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -15,6 +16,7 @@ class PromiseService {
       String doctorName) async {
     try {
       //cari dokter dari hospital
+      String uid = Uuid().v4();
       var data;
       for (var item in hospital.doctors) {
         if (item['fullname'] == doctorName) {
@@ -39,10 +41,27 @@ class PromiseService {
         patient: patient,
         status: "pending",
         time: time,
+        id: uid,
       );
-      await firestore.collection('promise').add(promise.toJson());
+      await firestore.collection('promise').doc(uid).set(promise.toJson());
+
+      Map<String, dynamic> dataNotification = {};
+      await firestore
+          .collection('user')
+          .where('email', isEqualTo: patient.email)
+          .get()
+          .then((value) {
+        dataNotification = {
+          'email': value.docs[0].data()['email'],
+          'fullname': value.docs[0].data()['fullname'],
+          'uid': value.docs[0].data()['uid'],
+        };
+      });
       await notificationService.createNotification(
-          "Create Promise Success", "Your promise has been created");
+        "Create Promise Success",
+        "Your promise has been created",
+        dataNotification,
+      );
 
       return true;
     } catch (e) {
@@ -66,6 +85,51 @@ class PromiseService {
         promises.add(Promise.fromJson(item.data() as Map<String, dynamic>));
       }
       return promises;
+    } catch (e) {
+      print("ERROR: $e");
+    }
+  }
+
+  void updatePromise(String stroke, String note, Promise promise) async {
+    try {
+      //update data promise byId
+      await firestore.collection('promise').doc(promise.id).update({
+        "diagnose": {
+          "ai": "",
+          "doctor": stroke,
+        },
+        "note": note,
+        "status": "done",
+      });
+
+      Map<String, dynamic> dataNotificationDoctor = {
+        'email': promise.doctor.email,
+        'fullname': promise.doctor.fullname,
+        'uid': promise.doctor.uid,
+      };
+      await notificationService.createNotification(
+        "Update Promise Success",
+        "Your promise has been updated",
+        dataNotificationDoctor,
+      );
+
+      Map<String, dynamic> dataNotificationPatient = {};
+      await firestore
+          .collection('user')
+          .where('email', isEqualTo: promise.patient.email)
+          .get()
+          .then((value) {
+        dataNotificationPatient = {
+          'email': value.docs[0].data()['email'],
+          'fullname': value.docs[0].data()['fullname'],
+          'uid': value.docs[0].data()['uid'],
+        };
+      });
+      await notificationService.createNotification(
+        "Promise accepted",
+        "Your promise has been accepted by doctor ${promise.doctor.fullname}",
+        dataNotificationPatient,
+      );
     } catch (e) {
       print("ERROR: $e");
     }

@@ -18,15 +18,22 @@ class _ProfileDoctorScreenState extends State<ProfileDoctorScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30),
-          ProfileImage(name: "Dokter"),
-          ProfileName(name: "dokter", role: "Dokter"),
-          EmailProfile(email: "tes@gmail.com"),
-          LogoutButton(),
-        ],
-      ),
+      body: FutureBuilder(
+          future: AuthService().getUser(),
+          builder: (context, data) {
+            if (data.connectionState == ConnectionState.waiting)
+              return Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                SizedBox(height: 30),
+                ProfileImage(name: data.data!['fullname']),
+                ProfileName(
+                    name: data.data!['fullname'], role: data.data!['role']),
+                EmailProfile(email: data.data!['email']),
+                LogoutButton(),
+              ],
+            );
+          }),
     );
   }
 }

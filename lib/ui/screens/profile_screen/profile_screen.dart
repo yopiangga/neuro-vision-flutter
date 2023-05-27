@@ -1,9 +1,6 @@
 part of '../screens.dart';
 
 class ProfileUserScreen extends StatelessWidget {
-  ProfileUserScreen({required this.data});
-  Map<String, dynamic> data;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,15 +11,22 @@ class ProfileUserScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30),
-          ProfileImage(name: data['fullname']),
-          ProfileName(name: data['fullname'], role: data['role']),
-          EmailProfile(email: data['email']),
-          LogoutButton(),
-        ],
-      ),
+      body: FutureBuilder(
+          future: AuthService().getUser(),
+          builder: (context, data) {
+            if (data.connectionState == ConnectionState.waiting)
+              return Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                SizedBox(height: 30),
+                ProfileImage(name: data.data!['fullname']),
+                ProfileName(
+                    name: data.data!['fullname'], role: data.data!['role']),
+                EmailProfile(email: data.data!['email']),
+                LogoutButton(),
+              ],
+            );
+          }),
     );
   }
 }
@@ -38,7 +42,11 @@ class LogoutButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         auth.signOut();
-        Navigator.pushReplacementNamed(context, '/sign_in');
+        // Navigator.pushReplacementNamed(context, '/sign_in');
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => SignInScreen()),
+            (route) => false);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 20),

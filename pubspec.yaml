@@ -17,6 +17,7 @@ dependencies:
   cloud_firestore: 4.7.1
   uuid: 3.0.7
   intl: 0.18.1
+  flutter_launcher_icons: 0.13.1
   flutter: 
     sdk: flutter
 
@@ -29,4 +30,9 @@ flutter:
   assets: 
     - lib/assets/images/
   uses-material-design: true
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/images/logo.png"
 

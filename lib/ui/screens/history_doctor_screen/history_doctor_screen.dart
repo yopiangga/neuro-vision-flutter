@@ -8,6 +8,7 @@ class HistoryDoctorScreen extends StatefulWidget {
 }
 
 class _HistoryDoctorScreenState extends State<HistoryDoctorScreen> {
+  PatientService patientService = PatientService();
   @override
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).padding.top;
@@ -35,40 +36,51 @@ class _HistoryDoctorScreenState extends State<HistoryDoctorScreen> {
           )
         ],
       ),
-      // body: EmptySection(
-      //   title: "Patient Empty",
-      //   content: "There is no patient data in the application yet",
-      // ),
-      body: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HospitalPatient(),
-                ),
+      body: FutureBuilder(
+          future: patientService.getPatientPromise(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData || snapshot.data.length == 0) {
+              return EmptySection(
+                title: "Patient Empty",
+                content: "There is no patient data in the application yet",
               );
-            },
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 2.5, horizontal: 20),
-              leading: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(50 / 2),
-                ),
-              ),
-              title: Text("User Name"),
-              subtitle: Text("User Condition"),
-            ),
-          );
-        },
-      ),
+            }
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HospitalPatient(
+                            name: snapshot.data[index].patient.fullname),
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 20),
+                    leading: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50 / 2),
+                      ),
+                    ),
+                    title: Text("${snapshot.data[index].patient.fullname}"),
+                    subtitle: Text(
+                        "${snapshot.data[index].diagnose['doctor'] == "" ? "Unclassified" : snapshot.data[index].diagnose['doctor']}"),
+                  ),
+                );
+              },
+            );
+          }),
     );
   }
 }

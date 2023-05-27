@@ -99,7 +99,7 @@ class NotePromise extends StatelessWidget {
             children: [
               Text("Note"),
               Text(
-                "-",
+                data.note,
               ),
             ],
           ),
@@ -143,17 +143,34 @@ class DownloadOutput extends StatelessWidget {
   }
 }
 
-class OutputStroke extends StatelessWidget {
+class OutputStroke extends StatefulWidget {
   OutputStroke({
     required this.promise,
     super.key,
   });
 
-  FirebaseAuth auth = FirebaseAuth.instance;
   Promise promise;
 
   @override
+  State<OutputStroke> createState() => _OutputStrokeState();
+}
+
+class _OutputStrokeState extends State<OutputStroke> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  PromiseService promiseService = PromiseService();
+  String stroke = "";
+  String note = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    stroke = widget.promise.diagnose['doctor'];
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(widget.promise.diagnose);
     return FutureBuilder(
         future: _userRole(),
         builder: (context, snapshot) {
@@ -174,7 +191,7 @@ class OutputStroke extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  promise.diagnose['ai'],
+                  widget.promise.diagnose['ai'],
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -195,7 +212,7 @@ class OutputStroke extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          promise.diagnose['doctor'],
+                          widget.promise.diagnose['doctor'],
                           style: TextStyle(
                             fontSize: 20,
                           ),
@@ -212,7 +229,83 @@ class OutputStroke extends StatelessWidget {
                     ),
                     if (snapshot.data == 'doctor')
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Edit Diagnosis"),
+                                  content: StatefulBuilder(
+                                      builder: (context, setState) {
+                                    return Container(
+                                      height: 200,
+                                      child: Column(
+                                        children: [
+                                          //buat dropdown
+                                          DropdownButton(
+                                            hint: Text("Diagnosis"),
+                                            //ketika memilih isi maka input langsung berubah
+                                            value: stroke == "" ? null : stroke,
+                                            items: [
+                                              DropdownMenuItem(
+                                                child: Text("Normal"),
+                                                value: "Normal",
+                                              ),
+                                              DropdownMenuItem(
+                                                child: Text("Stroke Ischemic"),
+                                                value: "Stroke Ischemic",
+                                              ),
+                                              DropdownMenuItem(
+                                                child:
+                                                    Text("Stroke Hemorrhagic"),
+                                                value: "Stroke Hemorrhagic",
+                                              ),
+                                            ],
+                                            onChanged: (value) {
+                                              setState(() {
+                                                stroke = value.toString();
+                                              });
+                                            },
+                                          ),
+                                          SizedBox(height: 20),
+                                          //buat textfield area
+                                          TextField(
+                                            maxLines: 4,
+                                            decoration: InputDecoration(
+                                              hintText: "Note",
+                                              border: OutlineInputBorder(),
+                                            ),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                note = value;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        promiseService.updatePromise(
+                                            stroke, note, widget.promise);
+                                        // back dengan refresh halaman
+                                        Navigator.pushReplacementNamed(
+                                            context, '/main');
+                                      },
+                                      child: Text("Save"),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
                         child: Container(
                           padding:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 15),

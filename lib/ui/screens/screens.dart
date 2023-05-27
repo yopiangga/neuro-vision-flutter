@@ -16,6 +16,7 @@ import '../../services/notification_service.dart';
 import '../../services/patient_service.dart';
 part '../widgets/widgets.dart';
 part 'main_screen/main_screen.dart';
+part './spalsh_screen/splash_screen.dart';
 
 // USER SCREEN
 part 'dashboard_screen/dashboard_screen.dart';

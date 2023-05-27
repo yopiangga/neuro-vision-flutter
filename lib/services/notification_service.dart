@@ -27,13 +27,8 @@ class NotificationService {
     }
   }
 
-  Future createNotification(String title, String description) async {
-    //ambil data user
-    User? user = auth.currentUser;
-    DocumentSnapshot snapshot =
-        await firestore.collection('user').doc(user!.uid).get();
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-
+  Future createNotification(
+      String title, String description, Map<String, dynamic> data) async {
     try {
       Notification notification = Notification(notification: {
         "title": title,

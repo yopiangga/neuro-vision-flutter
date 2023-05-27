@@ -19,27 +19,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return MaterialApp(
-            title: 'Neuro Vision',
-            theme: ThemeData(
-              primarySwatch: Colors.indigo,
-            ),
-            debugShowCheckedModeBanner: false,
-            home: SignInScreen(),
-            initialRoute: snapshot.hasData ? '/main' : '/sign_in',
-            routes: {
-              '/sign_in': (context) => const SignInScreen(),
-              '/register': (context) => const RegisterScreen(),
-              '/main': (context) => const MainScreen(),
-              '/promise_success': (context) => const SuccessScreen(),
-            },
-          );
-        });
+    return MaterialApp(
+      title: 'Neuro Vision',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
+      initialRoute: '/splash',
+      routes: {
+        '/splash': (context) => const SplashScreen(),
+        '/sign_in': (context) => const SignInScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/main': (context) => const MainScreen(),
+        '/promise_success': (context) => const SuccessScreen(),
+      },
+    );
   }
 }

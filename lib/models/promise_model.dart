@@ -11,6 +11,7 @@ class Promise {
   Patient patient;
   String status;
   String time;
+  String id;
 
   Promise({
     required this.diagnose,
@@ -21,6 +22,7 @@ class Promise {
     required this.patient,
     required this.status,
     required this.time,
+    this.id = "",
   });
 
   factory Promise.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class Promise {
       patient: Patient.fromJson(json['patient']),
       status: json['status'],
       time: json['time'],
+      id: json['id'],
     );
   }
 
@@ -45,5 +48,6 @@ class Promise {
         "patient": patient.toJson(),
         "status": status,
         "time": time,
+        "id": id,
       };
 }
