@@ -37,9 +37,10 @@ class _SplashScreenState extends State<SplashScreen> {
     User? user = await auth.auth.currentUser;
 
     if (user != null) {
-      Navigator.pushReplacementNamed(context, '/main');
+      // Navigator.pushReplacementNamed(context, '/main');
+      Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
     } else {
-      Navigator.pushReplacementNamed(context, '/sign_in');
+      Navigator.pushNamedAndRemoveUntil(context, '/sign_in', (route) => false);
     }
   }
 }
