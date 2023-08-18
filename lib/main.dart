@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:neuro_vision_mobile/shared/shared.dart';
-import 'package:neuro_vision_mobile/ui/screens/map_screen/map_hospital_screen.dart';
-import 'package:neuro_vision_mobile/ui/screens/screens.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
+import 'ui/screens/screens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
       initialRoute: '/splash',
       routes: {
         '/splash': (context) => const SplashScreen(),
@@ -33,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/main': (context) => const MainScreen(),
         '/promise_success': (context) => const SuccessScreen(),
+        '/patient/hospital-map': (context) => MapHospitalScreen(),
       },
     );
   }

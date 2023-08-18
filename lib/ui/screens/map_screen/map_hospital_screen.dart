@@ -1,29 +1,72 @@
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+part of '../screens.dart';
 
-class MapHospitalScreen extends StatelessWidget {
-  const MapHospitalScreen({Key? key}) : super(key: key);
+class MapHospitalScreen extends StatefulWidget {
+  MapHospitalScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MapHospitalScreen> createState() => _MapHospitalScreenState();
+}
+
+class _MapHospitalScreenState extends State<MapHospitalScreen> {
+  final hospitalService = HospitalService();
+
+  Position? currentPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  Future<void> initial() async {
+    currentPosition = await Helper.determinePosition();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _HospitalMap(),
-          Positioned(bottom: 40, left: 0, child: _HospitalList()),
-          Positioned(
-            top: 30,
-            left: 20,
-            child: IconButton(onPressed: null, icon: Icon(Icons.close)),
-          )
-        ],
-      ),
+      body: FutureBuilder(
+        future: hospitalService.getAllHospital(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator()
+            );
+          } else if (snapshot.hasData) {
+            List<Hospital> hospitals = snapshot.data as List<Hospital>;
+
+            hospitals = Helper().sortPositionsByFewestDirections(currentPosition!, hospitals).reversed.toList();
+            return Stack(
+              children: [
+                _HospitalMap(
+                  hospital: hospitals,
+                  currentPosition: currentPosition,
+                ),
+                Positioned(bottom: 40, left: 0, child: _HospitalList(hospital: hospitals,)),
+                Positioned(
+                  top: 30,
+                  left: 20,
+                  child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.close)
+                  ),
+                )
+              ],
+            );
+          } else {
+            return Text(snapshot.error.toString());
+          }
+        },
+      )
     );
   }
 }
 
 class _HospitalMap extends StatefulWidget {
-  const _HospitalMap({Key? key}) : super(key: key);
+  final List<Hospital> hospital;
+  final Position? currentPosition;
+  const _HospitalMap({Key? key, this.currentPosition, required this.hospital}) : super(key: key);
 
   @override
   State<_HospitalMap> createState() => _HospitalMapState();
@@ -34,20 +77,23 @@ class _HospitalMapState extends State<_HospitalMap> {
 
   @override
   Widget build(BuildContext context) {
-    _setMarker(dummyHospital, context);
+    _setMarker(widget.hospital, context);
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: const CameraPosition(
-          target: LatLng(-7.282356, 112.7927366), zoom: 14.0),
+      initialCameraPosition: CameraPosition(
+          target: LatLng(
+              widget.currentPosition?.latitude ?? -7.282356,
+              widget.currentPosition?.longitude ?? 112.7927366),
+          zoom: 14.0),
       markers: _markers,
     );
   }
 
-  void _setMarker(List<HospitalModel> list, BuildContext context) {
+  void _setMarker(List<Hospital> list, BuildContext context) {
     for (var e in list) {
       _markers.add(Marker(
-        markerId: MarkerId("${e.position!.latitude}"),
-        position: LatLng(e.position!.latitude, e.position!.longitude),
+        markerId: MarkerId("${e.geolocation.latitude}"),
+        position: LatLng(e.geolocation.latitude, e.geolocation.longitude),
         infoWindow: InfoWindow(title: e.price.toString()),
         onTap: null,
       ));
@@ -57,7 +103,8 @@ class _HospitalMapState extends State<_HospitalMap> {
 }
 
 class _HospitalList extends StatelessWidget {
-  const _HospitalList({Key? key}) : super(key: key);
+  final List<Hospital> hospital;
+  const _HospitalList({Key? key, required this.hospital}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +113,9 @@ class _HospitalList extends StatelessWidget {
       height: 260,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: dummyHospital.length,
+        itemCount: hospital.length,
         itemBuilder: (BuildContext context, int index) {
-          return _HospitalListItem(model: dummyHospital[index]);
+          return _HospitalListItem(model: hospital[index]);
         },
       ),
     );
@@ -76,7 +123,7 @@ class _HospitalList extends StatelessWidget {
 }
 
 class _HospitalListItem extends StatelessWidget {
-  final HospitalModel model;
+  final Hospital model;
   const _HospitalListItem({Key? key, required this.model}) : super(key: key);
 
   @override
@@ -92,7 +139,7 @@ class _HospitalListItem extends StatelessWidget {
           height: 260,
           child: Column(
             children: [
-              Image.network(model.thumbnail!,
+              Image.network(model.image[0]!,
                   height: 160, width: 270, fit: BoxFit.cover),
               const SizedBox(height: 4.0),
               Padding(
@@ -100,14 +147,15 @@ class _HospitalListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(model.address!,
+                    Text(model.address,
+                        maxLines: 2,
                         style: TextStyle(
                             color: Colors.black.withOpacity(0.7),
                             fontSize: 14)),
                     const SizedBox(height: 4.0),
                     Text(
-                      model.name!,
-                      style: TextStyle(
+                      model.name,
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
@@ -117,16 +165,16 @@ class _HospitalListItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(model.price!,
-                            style: TextStyle(
+                        Text(model.price,
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500)),
                         Row(
                           children: [
                             Icon(Icons.star, color: Colors.yellow),
-                            Text(model.rate.toString(),
-                                style: TextStyle(
+                            Text(model.rating,
+                                style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500))

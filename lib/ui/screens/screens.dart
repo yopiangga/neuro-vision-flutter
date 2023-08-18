@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../shared/helper.dart';
 import '../../shared/shared.dart';
 import '../../models/hospital_model.dart';
 import '../../models/promise_model.dart';
@@ -30,6 +33,7 @@ part 'profile_screen/profile_screen.dart';
 part 'profile_screen/change_password_screen.dart';
 part 'sign_in_screen/sign_in_screen.dart';
 part 'register_screen/register_screen.dart';
+part 'map_screen/map_hospital_screen.dart';
 
 // DOCTOR SCREEN
 part 'dashboard_doctor_screen/dashboard_doctor_screen.dart';

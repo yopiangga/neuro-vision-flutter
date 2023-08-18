@@ -43,8 +43,8 @@ class MapButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double lat = double.parse(data.geolocation['latitude']);
-    double long = double.parse(data.geolocation['longitude']);
+    double lat = data.geolocation.latitude;
+    double long = data.geolocation.longitude;
     _setMarkers(data, lat, long);
     return Padding(
       padding: EdgeInsets.only(left: 20, right: 20, top: 10),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Hospital {
   String name;
   String address;
@@ -6,7 +8,7 @@ class Hospital {
   String description;
   String rating;
   List<dynamic> doctors;
-  Map geolocation;
+  GeoPoint geolocation;
   String service_hours;
   String telephone;
   String id;
