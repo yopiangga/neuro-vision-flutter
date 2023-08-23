@@ -15,7 +15,7 @@ class DetailPatient extends StatelessWidget {
           children: [
             Stack(
               children: [
-                data.diagnose['doctor'] != ""
+                data.image_scan != ""
                     ? Container(
                         width: double.infinity,
                         height: 300,

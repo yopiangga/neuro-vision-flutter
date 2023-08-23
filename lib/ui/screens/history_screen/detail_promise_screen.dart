@@ -15,7 +15,7 @@ class DetailHistoryPromise extends StatelessWidget {
           children: [
             Stack(
               children: [
-                promise.diagnose['doctor'] != ""
+                promise.image_scan != ""
                     ? Container(
                         width: double.infinity,
                         height: 300,
