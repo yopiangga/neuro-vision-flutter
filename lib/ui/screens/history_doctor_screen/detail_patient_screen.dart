@@ -9,38 +9,70 @@ class DetailPatient extends StatelessWidget {
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: paddingTop + 10),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                padding: EdgeInsets.only(left: 20),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                data.diagnose['doctor'] != ""
+                    ? Container(
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[700],
+                          image: DecorationImage(
+                            image: AssetImage('lib/assets/images/normal.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[500],
+                        ),
+                        child: Center(
+                          child: Text(
+                            "No Image",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                IconButton(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    top: 50,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
                 ),
+              ],
+            ),
+            SizedBox(height: 20),
+            OutputStroke(promise: data),
+            Divider(),
+            DownloadOutput(),
+            Divider(),
+            NotePromise(data: data),
+            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
+                child: LergeButton(content: "Back"),
               ),
-              SizedBox(height: 20),
-              OutputStroke(promise: data),
-              Divider(),
-              DownloadOutput(),
-              Divider(),
-              NotePromise(data: data),
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: LergeButton(content: "Back"),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

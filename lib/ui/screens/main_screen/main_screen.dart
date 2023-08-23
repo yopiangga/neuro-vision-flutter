@@ -33,20 +33,14 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _isPatient().then((value) => {
-          if (value)
-            {
-              setState(() {
-                currentScreen = DashboardUserScreen();
-              })
-            }
-          else
-            {
-              setState(() {
-                currentScreen = DashboardDoctorScreen();
-              })
-            }
+    if (mounted) {
+      _isPatient().then((value) {
+        setState(() {
+          currentScreen =
+              value ? DashboardUserScreen() : DashboardDoctorScreen();
         });
+      });
+    }
   }
 
   @override

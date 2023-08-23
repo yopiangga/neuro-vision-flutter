@@ -20,53 +20,58 @@ class _MapHospitalScreenState extends State<MapHospitalScreen> {
 
   Future<void> initial() async {
     currentPosition = await Helper.determinePosition();
-    setState(() {});
+    if (this.mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: hospitalService.getAllHospital(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
-          } else if (snapshot.hasData) {
-            List<Hospital> hospitals = snapshot.data as List<Hospital>;
+        body: FutureBuilder(
+      future: hospitalService.getAllHospital(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasData) {
+          List<Hospital> hospitals = snapshot.data as List<Hospital>;
 
-            hospitals = Helper().sortPositionsByFewestDirections(currentPosition!, hospitals).reversed.toList();
-            return Stack(
-              children: [
-                _HospitalMap(
-                  hospital: hospitals,
-                  currentPosition: currentPosition,
-                ),
-                Positioned(bottom: 40, left: 0, child: _HospitalList(hospital: hospitals,)),
-                Positioned(
-                  top: 30,
-                  left: 20,
-                  child: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close)
-                  ),
-                )
-              ],
-            );
-          } else {
-            return Text(snapshot.error.toString());
-          }
-        },
-      )
-    );
+          hospitals = Helper()
+              .sortPositionsByFewestDirections(currentPosition!, hospitals)
+              .reversed
+              .toList();
+          return Stack(
+            children: [
+              _HospitalMap(
+                hospital: hospitals,
+                currentPosition: currentPosition,
+              ),
+              Positioned(
+                  bottom: 40,
+                  left: 0,
+                  child: _HospitalList(
+                    hospital: hospitals,
+                  )),
+              Positioned(
+                top: 30,
+                left: 20,
+                child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close)),
+              )
+            ],
+          );
+        } else {
+          return Text(snapshot.error.toString());
+        }
+      },
+    ));
   }
 }
 
 class _HospitalMap extends StatefulWidget {
   final List<Hospital> hospital;
   final Position? currentPosition;
-  const _HospitalMap({Key? key, this.currentPosition, required this.hospital}) : super(key: key);
+  const _HospitalMap({Key? key, this.currentPosition, required this.hospital})
+      : super(key: key);
 
   @override
   State<_HospitalMap> createState() => _HospitalMapState();
@@ -81,8 +86,7 @@ class _HospitalMapState extends State<_HospitalMap> {
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: CameraPosition(
-          target: LatLng(
-              widget.currentPosition?.latitude ?? -7.282356,
+          target: LatLng(widget.currentPosition?.latitude ?? -7.282356,
               widget.currentPosition?.longitude ?? 112.7927366),
           zoom: 14.0),
       markers: _markers,

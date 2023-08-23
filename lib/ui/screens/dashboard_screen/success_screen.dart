@@ -48,11 +48,12 @@ class SuccessScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MainScreen(),
                     ),
+                    (route) => false,
                   );
                 },
                 child: LergeButton(content: "Close"),

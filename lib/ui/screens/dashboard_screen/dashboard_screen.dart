@@ -21,7 +21,9 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
 
   Future<void> initial() async {
     currentPosition = await Helper.determinePosition();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -42,16 +44,18 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
               future: hospitalService.getAllHospital(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: CircularProgressIndicator()
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (!snapshot.hasData) {
                   return Center(child: Text("Data not found"));
                 } else {
                   List<Hospital> hospitals = snapshot.data as List<Hospital>;
 
-                  hospitals = Helper().sortPositionsByFewestDirections(currentPosition!, hospitals).reversed.toList();
+                  hospitals = Helper()
+                      .sortPositionsByFewestDirections(
+                          currentPosition!, hospitals)
+                      .reversed
+                      .toList();
                   return Padding(
                     padding: EdgeInsets.only(top: paddingTop),
                     child: SingleChildScrollView(
@@ -78,7 +82,8 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                              padding:
+                                  EdgeInsets.only(top: 20, left: 20, right: 20),
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +94,8 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.grey[200],
                                       image: DecorationImage(
-                                        image: NetworkImage(hospitals[0].image[0]),
+                                        image:
+                                            NetworkImage(hospitals[0].image[0]),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -130,8 +136,8 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
                             itemCount: hospitals.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                padding:
-                                EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 30),
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
@@ -167,7 +173,7 @@ class _DashboardUserScreenState extends State<DashboardUserScreen> {
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               hospitals[index].name,
