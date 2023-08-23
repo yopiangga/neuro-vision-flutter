@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Neuro Vision',
+      title: 'Neutron Imager',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
