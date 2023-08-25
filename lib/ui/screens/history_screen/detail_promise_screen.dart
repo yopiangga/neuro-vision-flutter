@@ -22,7 +22,7 @@ class DetailHistoryPromise extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.grey[700],
                           image: DecorationImage(
-                            image: AssetImage('lib/assets/images/normal.jpg'),
+                            image: NetworkImage(promise.image_scan),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -61,7 +61,7 @@ class DetailHistoryPromise extends StatelessWidget {
             SizedBox(height: 20),
             OutputStroke(promise: promise),
             Divider(),
-            DownloadOutput(),
+            DownloadOutput(image_path: promise.image_scan),
             Divider(),
             NotePromise(data: promise),
             SizedBox(height: 20),
@@ -144,22 +144,41 @@ class NotePromise extends StatelessWidget {
 
 class DownloadOutput extends StatelessWidget {
   const DownloadOutput({
-    // required this.uploaded,
+    required this.image_path,
     super.key,
   });
 
-  // final bool uploaded;
+  final image_path;
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider imageProvider = NetworkImage(image_path);
     return Container(
       padding: EdgeInsets.all(20),
       child: Row(
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              if (image_path != "") {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Container(
+                        width: double.infinity,
+                        height: 200,
+                        child: EasyImageView(
+                          imageProvider: imageProvider,
+                          doubleTapZoomable: true,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            },
             child: Text(
-              "Download",
+              "View detail",
               style: TextStyle(
                 color: CustomColor.main,
                 fontSize: 18,

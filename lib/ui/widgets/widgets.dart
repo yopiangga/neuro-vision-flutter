@@ -108,3 +108,17 @@ class LergeButton extends StatelessWidget {
     );
   }
 }
+
+class ViewImage extends StatelessWidget {
+  const ViewImage({required this.image_path});
+
+  final image_path;
+
+  @override
+  Widget build(BuildContext context) {
+    final imageProvider = NetworkImage(image_path);
+    return Scaffold(
+      body: Center(),
+    );
+  }
+}

@@ -22,7 +22,7 @@ class DetailPatient extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.grey[700],
                           image: DecorationImage(
-                            image: AssetImage('lib/assets/images/normal.jpg'),
+                            image: NetworkImage(data.image_scan),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -61,7 +61,7 @@ class DetailPatient extends StatelessWidget {
             SizedBox(height: 20),
             OutputStroke(promise: data),
             Divider(),
-            DownloadOutput(),
+            DownloadOutput(image_path: data.image_scan),
             Divider(),
             NotePromise(data: data),
             SizedBox(height: 20),

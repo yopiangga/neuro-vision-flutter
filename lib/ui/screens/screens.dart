@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 import '../../shared/helper.dart';
 import '../../shared/shared.dart';
