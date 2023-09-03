@@ -147,11 +147,12 @@ class _HospitalListItemState extends State<_HospitalListItem> {
     targetLocation = LatLng(
         widget.model.geolocation.latitude, widget.model.geolocation.longitude);
     distance = Helper().calculateDistance(
-      currentPosition?.latitude ?? 0,
-      currentPosition?.longitude ?? 0,
-      targetLocation?.latitude ?? 0,
-      targetLocation?.longitude ?? 0,
-    );
+          currentPosition?.latitude ?? 0,
+          currentPosition?.longitude ?? 0,
+          targetLocation?.latitude ?? 0,
+          targetLocation?.longitude ?? 0,
+        ) /
+        1000;
   }
 
   Future<void> initial() async {
@@ -219,13 +220,12 @@ class _HospitalListItemState extends State<_HospitalListItem> {
 final dummyHospital = [
   HospitalModel(
       id: '1',
-      name: 'RSUD Soedarsono Kota Pasuruan',
+      name: 'RSU Haji Surabaya',
       address: 'Kota Pasuruan',
       price: 'Rp. 1000',
       rate: 4.5,
-      position: const LatLng(-7.6636086, 112.8971409),
-      thumbnail:
-          'https://awsimages.detik.net.id/community/media/visual/2020/03/27/d912a216-e093-4871-90ad-dc832716c36b_43.jpeg?w=650&q=80'),
+      position: const LatLng(-7.2830854, 112.7771886),
+      thumbnail: 'https://rsuhaji.jatimprov.go.id/images/profil/profil.jpg'),
   HospitalModel(
       id: '2',
       name: 'Rumah Sakit Umum Daerah Haji Provinsi Jawa Timur',
