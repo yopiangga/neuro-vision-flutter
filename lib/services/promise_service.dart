@@ -17,16 +17,21 @@ class PromiseService {
     try {
       //cari dokter dari hospital
       String uid = Uuid().v4();
-      var data;
-      for (var item in hospital.doctors) {
-        if (item['fullname'] == doctorName) {
-          data = item;
-        }
-      }
+      // var data;
+      // for (var item in hospital.doctors) {
+      //   if (item['fullname'] == doctorName) {
+      //     data = item;
+      //   }
+      // }
+      // Doctor doctor = Doctor(
+      //   email: data['email'],
+      //   fullname: data['fullname'],
+      //   uid: data['uid'],
+      // );
       Doctor doctor = Doctor(
-        email: data['email'],
-        fullname: data['fullname'],
-        uid: data['uid'],
+        email: "",
+        fullname: "",
+        uid: "",
       );
 
       Promise promise = Promise(
@@ -37,10 +42,11 @@ class PromiseService {
         doctor: doctor,
         hospital: hospital,
         image_scan: "",
-        note: "-",
+        note_doctor: "-",
+        note_admin: "-",
         patient: patient,
         status: "pending",
-        time: time,
+        time: "",
         id: uid,
       );
       await firestore.collection('promise').doc(uid).set(promise.toJson());
@@ -133,5 +139,10 @@ class PromiseService {
     } catch (e) {
       print("ERROR: $e");
     }
+  }
+
+  String? getEmail() {
+    //ambil email user yang login
+    return auth.currentUser!.email;
   }
 }

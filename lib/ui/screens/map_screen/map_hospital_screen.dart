@@ -126,9 +126,38 @@ class _HospitalList extends StatelessWidget {
   }
 }
 
-class _HospitalListItem extends StatelessWidget {
+class _HospitalListItem extends StatefulWidget {
   final Hospital model;
   const _HospitalListItem({Key? key, required this.model}) : super(key: key);
+
+  @override
+  State<_HospitalListItem> createState() => _HospitalListItemState();
+}
+
+class _HospitalListItemState extends State<_HospitalListItem> {
+  Position? currentPosition;
+  LatLng? targetLocation;
+  double? distance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+    targetLocation = LatLng(
+        widget.model.geolocation.latitude, widget.model.geolocation.longitude);
+    distance = Helper().calculateDistance(
+      currentPosition?.latitude ?? 0,
+      currentPosition?.longitude ?? 0,
+      targetLocation?.latitude ?? 0,
+      targetLocation?.longitude ?? 0,
+    );
+  }
+
+  Future<void> initial() async {
+    currentPosition = await Helper.determinePosition();
+    if (this.mounted) setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +172,7 @@ class _HospitalListItem extends StatelessWidget {
           height: 260,
           child: Column(
             children: [
-              Image.network(model.image[0]!,
+              Image.network(widget.model.image[0]!,
                   height: 160, width: 270, fit: BoxFit.cover),
               const SizedBox(height: 4.0),
               Padding(
@@ -151,14 +180,14 @@ class _HospitalListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(model.address,
+                    Text(widget.model.address,
                         maxLines: 2,
                         style: TextStyle(
                             color: Colors.black.withOpacity(0.7),
                             fontSize: 14)),
                     const SizedBox(height: 4.0),
                     Text(
-                      model.name,
+                      widget.model.name,
                       style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -169,21 +198,11 @@ class _HospitalListItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(model.price,
+                        Text(distance!.toStringAsFixed(2) + ' km',
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500)),
-                        Row(
-                          children: [
-                            Icon(Icons.star, color: Colors.yellow),
-                            Text(model.rating,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500))
-                          ],
-                        )
                       ],
                     )
                   ],

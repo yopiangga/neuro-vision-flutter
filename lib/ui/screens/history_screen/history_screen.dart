@@ -62,7 +62,9 @@ class _HistoryUserScreenState extends State<HistoryUserScreen> {
                               )),
                         ),
                         Text(
-                          "${DateFormat('MMMM dd, yyyy').format(DateTime.parse(promise[index].time))} | ${DateFormat('hh:mm a').format(DateTime.parse(promise[index].time))}",
+                          promise[index].time != ""
+                              ? "${DateFormat('MMMM dd, yyyy').format(DateTime.parse(promise[index].time))} | ${DateFormat('hh:mm a').format(DateTime.parse(promise[index].time))}"
+                              : "Jadwal akan diinformasikan",
                           style: TextStyle(
                             color: CustomColor.main,
                             fontWeight: FontWeight.bold,

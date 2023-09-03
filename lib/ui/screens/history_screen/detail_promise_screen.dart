@@ -123,16 +123,29 @@ class NotePromise extends StatelessWidget {
             children: [
               Text("Time"),
               Text(
-                  "${DateFormat('MMMM dd, yyyy').format(DateTime.parse(data.time))} | ${DateFormat('hh:mm a').format(DateTime.parse(data.time))}"),
+                data.time != ""
+                    ? "${DateFormat('MMMM dd, yyyy').format(DateTime.parse(data.time))} | ${DateFormat('hh:mm a').format(DateTime.parse(data.time))}"
+                    : "Jadwal akan diinformasikan",
+              ),
             ],
           ),
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Note"),
+              Text("Note Doctor"),
               Text(
-                data.note,
+                data.note_doctor,
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Note Admin"),
+              Text(
+                data.note_admin,
               ),
             ],
           ),

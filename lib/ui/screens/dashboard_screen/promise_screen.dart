@@ -15,7 +15,7 @@ class _PromiseScreenState extends State<PromiseScreen> {
   String selectedDoctor = "";
   String date = "";
   String time = "";
-  String email = "";
+  String? email = "";
   String name = "";
   String placeBirth = "";
   String dateBirth = "";
@@ -28,6 +28,13 @@ class _PromiseScreenState extends State<PromiseScreen> {
   PromiseService promiseService = PromiseService();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email = promiseService.getEmail();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double paddingTop = MediaQuery.of(context).padding.top;
     List<dynamic> doctors = hospital.doctors;
@@ -36,7 +43,6 @@ class _PromiseScreenState extends State<PromiseScreen> {
       body: Padding(
         padding: EdgeInsets.only(top: paddingTop + 20, left: 20, right: 20),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -64,106 +70,106 @@ class _PromiseScreenState extends State<PromiseScreen> {
               SizedBox(height: 30),
 
               //================================================================ DOCTOR
-              Text(
-                "Doctor",
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 10),
-              InputDecorator(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
-                ),
-                child: DropdownButton(
-                  icon: SizedBox(),
-                  underline: SizedBox(),
-                  value: selectedDoctor.isEmpty ? null : selectedDoctor,
-                  items: doctors.map((doctor) {
-                    return DropdownMenuItem(
-                      value: doctor['fullname'],
-                      child: Text(doctor['fullname']),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedDoctor = value.toString();
-                    });
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
+              // Text(
+              //   "Doctor",
+              //   style: TextStyle(fontSize: 18),
+              // ),
+              // SizedBox(height: 10),
+              // InputDecorator(
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              //     suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
+              //   ),
+              //   child: DropdownButton(
+              //     icon: SizedBox(),
+              //     underline: SizedBox(),
+              //     value: selectedDoctor.isEmpty ? null : selectedDoctor,
+              //     items: doctors.map((doctor) {
+              //       return DropdownMenuItem(
+              //         value: doctor['fullname'],
+              //         child: Text(doctor['fullname']),
+              //       );
+              //     }).toList(),
+              //     onChanged: (value) {
+              //       setState(() {
+              //         selectedDoctor = value.toString();
+              //       });
+              //     },
+              //   ),
+              // ),
+              // SizedBox(height: 20),
 
               //================================================================ DATE & TIME
-              Text(
-                "Time",
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Date",
-                        ),
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(2100),
-                          );
-                          if (pickedDate != null) {
-                            setState(() {
-                              date = pickedDate.toString();
-                              dateValueController.text = date.substring(0, 10);
-                            });
-                          }
-                        },
-                        controller: dateValueController,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 10),
-                      height: 30,
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "  Time",
-                        ),
-                        onTap: () async {
-                          TimeOfDay? pickedTime = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          );
-                          if (pickedTime != null) {
-                            setState(() {
-                              time = pickedTime.toString();
-                              timeValueController.text = time.substring(10, 15);
-                            });
-                          }
-                        },
-                        controller: timeValueController,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
+              // Text(
+              //   "Time",
+              //   style: TextStyle(fontSize: 18),
+              // ),
+              // SizedBox(height: 10),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 10),
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10),
+              //     border: Border.all(color: Colors.grey),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: TextField(
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             hintText: "Date",
+              //           ),
+              //           onTap: () async {
+              //             DateTime? pickedDate = await showDatePicker(
+              //               context: context,
+              //               initialDate: DateTime.now(),
+              //               firstDate: DateTime.now(),
+              //               lastDate: DateTime(2100),
+              //             );
+              //             if (pickedDate != null) {
+              //               setState(() {
+              //                 date = pickedDate.toString();
+              //                 dateValueController.text = date.substring(0, 10);
+              //               });
+              //             }
+              //           },
+              //           controller: dateValueController,
+              //         ),
+              //       ),
+              //       Container(
+              //         margin: EdgeInsets.only(right: 10),
+              //         height: 30,
+              //         width: 1,
+              //         color: Colors.grey,
+              //       ),
+              //       Expanded(
+              //         child: TextField(
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             hintText: "  Time",
+              //           ),
+              //           onTap: () async {
+              //             TimeOfDay? pickedTime = await showTimePicker(
+              //               context: context,
+              //               initialTime: TimeOfDay.now(),
+              //             );
+              //             if (pickedTime != null) {
+              //               setState(() {
+              //                 time = pickedTime.toString();
+              //                 timeValueController.text = time.substring(10, 15);
+              //               });
+              //             }
+              //           },
+              //           controller: timeValueController,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 20),
 
               //================================================================ EMAIL
               Text(
@@ -183,6 +189,8 @@ class _PromiseScreenState extends State<PromiseScreen> {
                     hintText: "Email",
                     border: InputBorder.none,
                   ),
+                  //beri default value
+                  controller: TextEditingController(text: email),
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -320,13 +328,13 @@ class _PromiseScreenState extends State<PromiseScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 200),
 
               //================================================================ BUTTON
               InkWell(
                 onTap: () {
                   Patient patient = Patient(
-                    email: email,
+                    email: email!,
                     fullname: name,
                     pob: placeBirth,
                     dob: dateBirthValueController.text,
@@ -349,7 +357,6 @@ class _PromiseScreenState extends State<PromiseScreen> {
                 },
                 child: LergeButton(content: "Submit"),
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),

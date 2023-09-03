@@ -7,7 +7,8 @@ class Promise {
   Doctor doctor;
   Hospital hospital;
   String image_scan;
-  String note;
+  String note_doctor;
+  String note_admin;
   Patient patient;
   String status;
   String time;
@@ -18,7 +19,8 @@ class Promise {
     required this.doctor,
     required this.hospital,
     required this.image_scan,
-    required this.note,
+    required this.note_doctor,
+    required this.note_admin,
     required this.patient,
     required this.status,
     required this.time,
@@ -31,7 +33,8 @@ class Promise {
       doctor: Doctor.fromJson(json['doctor']),
       hospital: Hospital.fromJson(json['hospital']),
       image_scan: json['image_scan'],
-      note: json['note'],
+      note_doctor: json['note_doctor'],
+      note_admin: json['note_admin'],
       patient: Patient.fromJson(json['patient']),
       status: json['status'],
       time: json['time'],
@@ -44,7 +47,8 @@ class Promise {
         "doctor": doctor.toJson(),
         "hospital": hospital.toJson(),
         "image_scan": image_scan,
-        "note": note,
+        "note_doctor": note_doctor,
+        "note_admin": note_admin,
         "patient": patient.toJson(),
         "status": status,
         "time": time,
